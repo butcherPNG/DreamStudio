@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Отзывы
+{% endblock %}
+
+{% block content %}
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary" role="status"></div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light fixed-top shadow py-lg-0 px-4 px-lg-5 wow fadeIn" data-wow-delay="0.1s">
+        <a href="{% url 'index' %}" class="navbar-brand d-block d-lg-none">
+            <h1 class="text-primary">DreamStudio</h1>
+        </a>
+        <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse justify-content-between py-4 py-lg-0" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a href="{% url 'index' %}" class="nav-item nav-link">Главная</a>
+                <a href="{% url 'about' %}" class="nav-item nav-link">О нас</a>
+                <!-- <a href="service.html" class="nav-item nav-link">Услуги</a> -->
+            </div>
+            <a href="{% url 'index' %}" class="navbar-brand bg-primary py-2 px-4 mx-3 d-none d-lg-block">
+                <h1 class="text-white">DreamStudio</h1>
+            </a>
+            <div class="navbar-nav me-auto py-0">
+                <!-- <a href="project.html" class="nav-item nav-link">Проекты</a> -->
+                <!-- <div class="nav-item dropdown"> -->
+                    <!-- <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">Страницы</a> -->
+                    <!-- <div class="dropdown-menu rounded-0 shadow-sm border-0 m-0"> -->
+                        <!-- <a href="feature.html" class="dropdown-item">Интересное</a> -->
+                        <!-- <a href="team.html" class="dropdown-item">Наша команда</a> -->
+                        <a href="{% url 'testimonial' %}" class="nav-item nav-link active">Отзывы</a>
+                        <!-- <a href="404.html" class="dropdown-item">404</a> -->
+                    <!-- </div> -->
+                <!-- </div> -->
+                <a href="{% url 'contact' %}" class="nav-item nav-link">Контакты</a>
+            </div>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+
+
+    <!-- Header Start -->
+    <div class="container-fluid hero-header bg-light py-5 mb-5">
+        <div class="container py-5">
+            <div class="row g-5 align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="display-4 mb-3 animated slideInDown">Отзывы</h1>
+                    <nav aria-label="breadcrumb animated slideInDown">
+                        <ol class="breadcrumb mb-0">
+                            <li class="breadcrumb-item"><a href="#">Главная</a></li>
+                            <li class="breadcrumb-item"><a href="#">Страницы</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Отзывы</li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="col-lg-6 animated fadeIn">
+                    <div class="row g-3">
+                        <div class="col-6 text-end">
+                            <img class="img-fluid bg-white p-3 w-100" src="{% static 'img/hero-5.jpg' %}" alt="">
+                        </div>
+                        <div class="col-6">
+                            <img class="img-fluid bg-white p-3 w-100" src="{% static 'img/hero-6.jpg' %}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Header End -->
+
+
+    <!-- Testimonial Start -->
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="container-xxl py-5">
+                <div class="container">
+                    <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+                        <p class="text-primary text-uppercase mb-2">Оставить отзыв</p>
+                        <h1 class="display-6 mb-5">Вы можете оставить отзыв, заполнив форму заявки</h1>
+                    </div>
+                    <div class="row g-0 justify-content-center">
+                        <div class="col-lg-8 wow fadeInUp" data-wow-delay="0.1s">
+                            <!-- <p class="text-center mb-4">The contact form is currently inactive. Get a functional and working contact form with Ajax & PHP in a few minutes. Just copy and paste the files, add a little code and you're done. <a href="https://htmlcodex.com/contact-form">Download Now</a>.</p> -->
+                            <form method="POST" action="{% url 'testimonial' %}">
+                                {% csrf_token %}
+                                  {{ form.as_p }}
+                                <div class="row g-3">
+                                    <div class="col-md-12">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" name="name" maxlength="20" id="name" placeholder="Ваше имя" required>
+                                            <label for="name">Ваше имя</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <textarea class="form-control" maxlength="250" name="message" placeholder="Доп. информация" id="message" style="height: 200px" required></textarea>
+                                            <label for="message">Комментарий</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <button class="btn btn-primary py-3 px-5" type="submit">Отправить</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="owl-carousel testimonial-carousel wow fadeInUp" data-wow-delay="0.1s">
+
+                {% if comms|length == 0 %}
+                    <div class="testimonial-item bg-white p-4">
+                        <p class="mb-0">Отзывов пока нет</p>
+                    </div>
+                {% else %}
+
+                {% for item in comms %}
+                <div class="testimonial-item bg-white p-4">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="ms-4">
+                            <h5 class="mb-1">От: {{item.name}}</h5>
+                            <span>Оставлен: {{item.date}}</span>
+                        </div>
+                    </div>
+                    <p class="mb-0">{{item.message}}</p>
+                </div>
+
+                {% endfor %}
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <!-- Testimonial End -->
+{% endblock %}
